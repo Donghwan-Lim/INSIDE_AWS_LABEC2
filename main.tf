@@ -39,10 +39,12 @@ resource "aws_key_pair" "ssh-key-pair" {
 }
 
 ### Download key pair to local file
+/* After Local Terraform apply to download PEM File To local File System, Comment out this resource.
 resource "local_file" "local_key_pair" {
     filename = "${aws_key_pair.ssh-key-pair.key_name}.pem"
     file_permission = "0400"
     content = tls_private_key.ssh-priv-key.private_key_pem
 }
+*/
 
 ### EC2 Instance ###
