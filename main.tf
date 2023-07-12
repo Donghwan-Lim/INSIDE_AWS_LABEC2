@@ -102,6 +102,7 @@ resource "aws_instance" "public_vm_01" {
   ami           = data.aws_ami.recent_amazon_linux.id
   instance_type = var.instnace_type
   subnet_id     = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
+  associate_public_ip_address = true
 
   key_name        = aws_key_pair.ssh-key-pair.key_name
   security_groups = ["${data.terraform_remote_state.security.outputs.public-vm-sg-id}"]
