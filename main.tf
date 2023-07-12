@@ -7,6 +7,12 @@ terraform {
       name = "INSIDE_AWS_LABEC2"
     }
   }
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "5.7.0"
+    }
+  }
 }
 
 ### AWS Provider Info ###
@@ -39,7 +45,7 @@ resource "aws_key_pair" "ssh-key-pair" {
 }
 
 ### Download key pair to local file
-/* After Local Terraform apply to download PEM File To local File System, Comment out this resource.
+/* After Local Terraform cli apply to download PEM File To local File System, Comment out this resource.
 resource "local_file" "local_key_pair" {
     filename = "${aws_key_pair.ssh-key-pair.key_name}.pem"
     file_permission = "0400"
@@ -48,3 +54,21 @@ resource "local_file" "local_key_pair" {
 */
 
 ### EC2 Instance ###
+data "aws_ami" "recent_amazon_linux" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["al2023*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
