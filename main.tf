@@ -51,6 +51,7 @@ data "terraform_remote_state" "security" {
 
 ### Key Pair ###
 ### Resource to create a SSH private key
+/*
 resource "tls_private_key" "ssh-priv-key" {
   algorithm = "ED25519"
 }
@@ -60,7 +61,7 @@ resource "aws_key_pair" "ssh-key-pair" {
   public_key = tls_private_key.ssh-priv-key.public_key_openssh
   key_name   = "INSIDE_AWS_KEY_PAIR"
 }
-
+*/
 ### Download key pair to local file
 /* After Local Terraform cli apply to download PEM File To local File System, Comment out this resource.
 resource "local_file" "local_key_pair" {
@@ -103,7 +104,7 @@ resource "aws_instance" "public_vm_01" {
   subnet_id     = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
 
-  key_name        = aws_key_pair.ssh-key-pair.key_name
+  key_name        = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.public-vm-sg-id}"]
 
   root_block_device {
@@ -125,7 +126,7 @@ resource "aws_instance" "public_vm_02" {
   subnet_id     = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
 
-  key_name        = "test"
+  key_name        = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.public-vm-sg-id}"]
 
   root_block_device {
