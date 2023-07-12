@@ -63,6 +63,11 @@ data "aws_ami" "recent_amazon_linux" {
   }
 
   filter {
+    name = " owner"
+    values = ["137112412989"]
+  }
+
+  filter {
     name   = "root-device-type"
     values = ["ebs"]
   }
