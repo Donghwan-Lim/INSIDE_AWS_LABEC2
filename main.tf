@@ -84,7 +84,7 @@ data "aws_ami" "recent_amazon_linux" {
 
   filter {
     name   = "architecture"
-    values = ["arm64"]
+    values = ["x86_64"]
   }
 
   filter {
