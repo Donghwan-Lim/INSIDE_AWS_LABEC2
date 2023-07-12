@@ -56,15 +56,11 @@ resource "local_file" "local_key_pair" {
 ### EC2 Instance ###
 data "aws_ami" "recent_amazon_linux" {
   most_recent = true
+  owners = ["137112412989"]
 
   filter {
     name   = "name"
     values = ["al2023*"]
-  }
-
-  filter {
-    name = "owner"
-    values = ["137112412989"]
   }
 
   filter {
