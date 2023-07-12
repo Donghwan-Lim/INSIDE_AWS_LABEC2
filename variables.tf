@@ -6,5 +6,5 @@ variable "region" {
 
 variable "instnace_type" {
   type    = string
-  default = "t3.micro"
+  default = "t2.micro"
 }
