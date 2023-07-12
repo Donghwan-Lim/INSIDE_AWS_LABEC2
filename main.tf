@@ -53,6 +53,7 @@ data "terraform_remote_state" "security" {
 ### Resource to create a SSH private key
 resource "tls_private_key" "ssh-priv-key" {
   algorithm = "ED25519"
+  ecdsa_curve = "P256"
 }
 
 ### Resource to create a key pair
