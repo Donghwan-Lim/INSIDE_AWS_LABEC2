@@ -52,13 +52,12 @@ data "terraform_remote_state" "security" {
 ### Key Pair ###
 ### Resource to create a SSH private key
 resource "tls_private_key" "ssh-priv-key" {
-  algorithm = "ECDSA"
-  ecdsa_curve = "P256"
+  algorithm = "ED25519"
 }
 
 ### Resource to create a key pair
 resource "aws_key_pair" "ssh-key-pair" {
-  public_key = tls_private_key.ssh-priv-key.public_key_pem
+  public_key = tls_private_key.ssh-priv-key.public_key_openssh
   key_name   = "INSIDE_AWS_KEY_PAIR"
 }
 
