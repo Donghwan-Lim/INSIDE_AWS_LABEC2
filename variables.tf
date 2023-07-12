@@ -5,6 +5,6 @@ variable "region" {
 }
 
 variable "instnace_type" {
-  type = string
+  type    = string
   default = "t3.micro"
 }
