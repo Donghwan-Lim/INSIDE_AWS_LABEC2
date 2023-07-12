@@ -58,7 +58,7 @@ resource "tls_private_key" "ssh-priv-key" {
 
 ### Resource to create a key pair
 resource "aws_key_pair" "ssh-key-pair" {
-  public_key = tls_private_key.ssh-priv-key.public_key_openssh
+  public_key = tls_private_key.ssh-priv-key.public_key_pem
   key_name   = "INSIDE_AWS_KEY_PAIR"
 }
 
