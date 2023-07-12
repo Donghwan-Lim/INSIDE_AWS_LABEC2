@@ -51,7 +51,7 @@ data "terraform_remote_state" "security" {
 
 ### Key Pair ###
 ### Resource to create a SSH private key
-/*
+/* key pair managed by AWS Console
 resource "tls_private_key" "ssh-priv-key" {
   algorithm = "ED25519"
 }
