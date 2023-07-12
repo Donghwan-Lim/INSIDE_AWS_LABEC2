@@ -63,7 +63,7 @@ data "aws_ami" "recent_amazon_linux" {
   }
 
   filter {
-    name = " owner"
+    name = "owner"
     values = ["137112412989"]
   }
 
