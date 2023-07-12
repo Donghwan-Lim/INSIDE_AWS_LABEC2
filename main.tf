@@ -97,14 +97,14 @@ data "aws_ami" "recent_amazon_linux" {
     values = ["hvm"]
   }
 }
-
+/*
 resource "aws_instance" "public_vm_01" {
   ami           = data.aws_ami.recent_amazon_linux.id
   instance_type = var.instnace_type
   subnet_id     = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
 
   key_name        = aws_key_pair.ssh-key-pair.key_name
-  security_groups = ["${aws_security_group.public_vm_sg.id}"]
+  security_groups = ["${data.terraform_remote_state.security.outputs.public-vm-sg-id}"]
 
   root_block_device {
     delete_on_termination = true
@@ -117,12 +117,4 @@ resource "aws_instance" "public_vm_01" {
     Name     = "public_vm_01"
     resource = "aws_ec2_instance"
   })))
-}
-
-resource "aws_security_group" "public_vm_sg" {
-  name        = "public_vm_sg"
-  description = "INSIDE_AWS_Public_VM_Security_GROUP"
-  vpc_id      = data.terraform_remote_state.network.outputs.vpc01_id
-
-  tags = local.common-tags
-}
+}*/
