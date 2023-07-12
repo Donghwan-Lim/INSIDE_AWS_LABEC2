@@ -104,7 +104,7 @@ resource "aws_instance" "public_vm_01" {
   associate_public_ip_address = true
 
   key_name        = aws_key_pair.ssh-key-pair.key_name
-  vpc_security_group_id = ["${data.terraform_remote_state.security.outputs.public-vm-sg-id}"]
+  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.public-vm-sg-id}"]
 
   root_block_device {
     delete_on_termination = true
