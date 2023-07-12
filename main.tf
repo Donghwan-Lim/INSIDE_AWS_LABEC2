@@ -60,7 +60,7 @@ data "aws_ami" "recent_amazon_linux" {
 
   filter {
     name   = "name"
-    values = ["al2023*"]
+    values = ["al2023-ami-2023*"]
   }
 
   filter {
