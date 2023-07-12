@@ -97,7 +97,7 @@ data "aws_ami" "recent_amazon_linux" {
     values = ["hvm"]
   }
 }
-/*
+
 resource "aws_instance" "public_vm_01" {
   ami           = data.aws_ami.recent_amazon_linux.id
   instance_type = var.instnace_type
@@ -117,4 +117,4 @@ resource "aws_instance" "public_vm_01" {
     Name     = "public_vm_01"
     resource = "aws_ec2_instance"
   })))
-}*/
+}
