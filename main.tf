@@ -97,7 +97,7 @@ data "aws_ami" "recent_amazon_linux" {
     values = ["hvm"]
   }
 }
-
+/* 과금을 막기 위해 ㅎㅎ
 resource "aws_instance" "public_vm_01" {
   ami           = data.aws_ami.recent_amazon_linux.id
   instance_type = var.instnace_type
@@ -137,7 +137,7 @@ resource "aws_instance" "public_vm_02" {
   }
 
   tags = (merge(local.common-tags, tomap({
-    Name     = "public_vm_02_vpc1"
+    Name     = "public_vm_02_vpc2"
     resource = "aws_ec2_instance"
   })))
-}
+}*/
