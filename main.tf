@@ -126,7 +126,7 @@ resource "aws_instance" "Ansible_Server" {
 }
 resource "aws_network_interface" "Ansible_Server_ENI" {
   subnet_id   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
-  private_ips = ["10.10.10.2"]
+  private_ips = ["10.10.10.11"]
 
   tags = {
     Name = "Ansible_Server_ENI"
@@ -162,7 +162,7 @@ resource "aws_instance" "Ansible_Node_01" {
 
 resource "aws_network_interface" "Ansible_Node_01_ENI" {
   subnet_id   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
-  private_ips = ["10.10.10.3"]
+  private_ips = ["10.10.10.12"]
 
   tags = {
     Name = "Ansible_Node_01_ENI"
@@ -198,7 +198,7 @@ resource "aws_instance" "Ansible_Node_02" {
 
 resource "aws_network_interface" "Ansible_Node_02_ENI" {
   subnet_id   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
-  private_ips = ["10.10.10.4"]
+  private_ips = ["10.10.10.13"]
 
   tags = {
     Name = "Ansible_Node_02_ENI"
@@ -234,7 +234,7 @@ resource "aws_instance" "Ansible_Node_03" {
 
 resource "aws_network_interface" "Ansible_Node_03_ENI" {
   subnet_id   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
-  private_ips = ["10.10.10.5"]
+  private_ips = ["10.10.10.14"]
 
   tags = {
     Name = "Ansible_Node_03_ENI"
