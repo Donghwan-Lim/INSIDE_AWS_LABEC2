@@ -129,11 +129,6 @@ resource "aws_instance" "Ansible_Node_01" {
   key_name               = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
 
-  network_interface {
-    network_interface_id = aws_network_interface.Ansible_Node_01_ENI.id
-    device_index         = 0
-  }
-
   root_block_device {
     delete_on_termination = true
     encrypted             = false
