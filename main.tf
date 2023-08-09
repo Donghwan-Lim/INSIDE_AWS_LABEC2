@@ -106,12 +106,12 @@ resource "aws_instance" "Ansible_Server" {
 
   key_name               = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
-
+  /*
   network_interface {
     network_interface_id = aws_network_interface.Ansible_Server_ENI.id
     device_index         = 0
   }
-
+  */
   root_block_device {
     delete_on_termination = true
     encrypted             = false
@@ -124,6 +124,7 @@ resource "aws_instance" "Ansible_Server" {
     resource = "aws_ec2_instance"
   })))
 }
+/*
 resource "aws_network_interface" "Ansible_Server_ENI" {
   subnet_id   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   private_ips = ["10.10.10.11"]
@@ -131,13 +132,13 @@ resource "aws_network_interface" "Ansible_Server_ENI" {
   tags = {
     Name = "Ansible_Server_ENI"
   }
-}
+}*/
 
 resource "aws_instance" "Ansible_Node_01" {
   ami                         = data.aws_ami.recent_amazon_linux.id
   instance_type               = "t2.micro"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
-  associate_public_ip_address = true
+  associate_public_ip_address = false
 
   key_name               = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
@@ -173,7 +174,7 @@ resource "aws_instance" "Ansible_Node_02" {
   ami                         = data.aws_ami.recent_amazon_linux.id
   instance_type               = "t2.micro"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
-  associate_public_ip_address = true
+  associate_public_ip_address = false
 
   key_name               = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
@@ -209,7 +210,7 @@ resource "aws_instance" "Ansible_Node_03" {
   ami                         = data.aws_ami.recent_amazon_linux.id
   instance_type               = "t2.micro"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
-  associate_public_ip_address = true
+  associate_public_ip_address = false
 
   key_name               = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
