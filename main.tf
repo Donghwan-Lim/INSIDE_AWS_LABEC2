@@ -138,7 +138,7 @@ resource "aws_instance" "Ansible_Node_01" {
   ami                         = data.aws_ami.recent_amazon_linux.id
   instance_type               = "t2.micro"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
-  associate_public_ip_address = false
+  #associate_public_ip_address = false
 
   key_name               = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
@@ -174,7 +174,7 @@ resource "aws_instance" "Ansible_Node_02" {
   ami                         = data.aws_ami.recent_amazon_linux.id
   instance_type               = "t2.micro"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
-  associate_public_ip_address = false
+  #associate_public_ip_address = false
 
   key_name               = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
@@ -210,7 +210,7 @@ resource "aws_instance" "Ansible_Node_03" {
   ami                         = data.aws_ami.recent_amazon_linux.id
   instance_type               = "t2.micro"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
-  associate_public_ip_address = false
+  #associate_public_ip_address = false
 
   key_name               = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
