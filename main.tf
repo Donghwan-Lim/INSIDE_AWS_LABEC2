@@ -98,6 +98,94 @@ data "aws_ami" "recent_amazon_linux" {
   }
 }
 
+resource "aws_instance" "Ansible_Server" {
+  ami = data.aws_ami.recent_amazon_linux.id
+  instance_type = "t2.micro"
+  subnet_id = data.terraform_remote_state.network.vpc01_public_subnet_01_id
+  associate_public_ip_address = true
+
+  key_name = "INSIDE_EC2_KEYPAIR"
+  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
+
+  root_block_device {
+    delete_on_termination = true
+    encrypted             = false
+    volume_type           = "gp3"
+    volume_size           = 50
+  }
+
+  tags = (merge(local.common-tags, tomap({
+    Name     = "Ansible_Server"
+    resource = "aws_ec2_instance"
+  })))
+}
+
+resource "aws_instance" "Ansible_Node_01" {
+  ami = data.aws_ami.recent_amazon_linux.id
+  instance_type = "t2.micro"
+  subnet_id = data.terraform_remote_state.network.vpc01_public_subnet_01_id
+  associate_public_ip_address = true
+
+  key_name = "INSIDE_EC2_KEYPAIR"
+  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
+
+  root_block_device {
+    delete_on_termination = true
+    encrypted             = false
+    volume_type           = "gp3"
+    volume_size           = 50
+  }
+
+  tags = (merge(local.common-tags, tomap({
+    Name     = "Ansible_Node_01"
+    resource = "aws_ec2_instance"
+  })))
+}
+
+resource "aws_instance" "Ansible_Node_02" {
+  ami = data.aws_ami.recent_amazon_linux.id
+  instance_type = "t2.micro"
+  subnet_id = data.terraform_remote_state.network.vpc01_public_subnet_01_id
+  associate_public_ip_address = true
+
+  key_name = "INSIDE_EC2_KEYPAIR"
+  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
+
+  root_block_device {
+    delete_on_termination = true
+    encrypted             = false
+    volume_type           = "gp3"
+    volume_size           = 50
+  }
+
+  tags = (merge(local.common-tags, tomap({
+    Name     = "Ansible_Node_02"
+    resource = "aws_ec2_instance"
+  })))
+}
+
+resource "aws_instance" "Ansible_Node_03" {
+  ami = data.aws_ami.recent_amazon_linux.id
+  instance_type = "t2.micro"
+  subnet_id = data.terraform_remote_state.network.vpc01_public_subnet_01_id
+  associate_public_ip_address = true
+
+  key_name = "INSIDE_EC2_KEYPAIR"
+  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
+
+  root_block_device {
+    delete_on_termination = true
+    encrypted             = false
+    volume_type           = "gp3"
+    volume_size           = 50
+  }
+
+  tags = (merge(local.common-tags, tomap({
+    Name     = "Ansible_Node_03"
+    resource = "aws_ec2_instance"
+  })))
+}
+/* VM Create TEST VM
 resource "aws_instance" "public_vm_01" {
   ami           = data.aws_ami.recent_amazon_linux.id
   instance_type = var.instnace_type
@@ -140,4 +228,4 @@ resource "aws_instance" "public_vm_02" {
     Name     = "public_vm_02_vpc2"
     resource = "aws_ec2_instance"
   })))
-}
+}*/
