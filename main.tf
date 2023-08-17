@@ -10,7 +10,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.10"
+      version = "5.10.0"
     }
   }
 }
@@ -98,8 +98,33 @@ data "aws_ami" "recent_amazon_linux" {
   }
 }
 
+data "aws_ami" "recent_Ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server*"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 resource "aws_instance" "Ansible_Server" {
-  ami                         = data.aws_ami.recent_amazon_linux.id
+  ami                         = data.aws_ami.recent_Ubuntu.id
   instance_type               = "t2.micro"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
@@ -121,7 +146,7 @@ resource "aws_instance" "Ansible_Server" {
 }
 
 resource "aws_instance" "Ansible_Node_01" {
-  ami                         = data.aws_ami.recent_amazon_linux.id
+  ami                         = data.aws_ami.recent_Ubuntu.id
   instance_type               = "t2.micro"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
@@ -143,7 +168,7 @@ resource "aws_instance" "Ansible_Node_01" {
 }
 
 resource "aws_instance" "Ansible_Node_02" {
-  ami                         = data.aws_ami.recent_amazon_linux.id
+  ami                         = data.aws_ami.recent_Ubuntu.id
   instance_type               = "t2.micro"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
@@ -165,7 +190,7 @@ resource "aws_instance" "Ansible_Node_02" {
 }
 
 resource "aws_instance" "Ansible_Node_03" {
-  ami                         = data.aws_ami.recent_amazon_linux.id
+  ami                         = data.aws_ami.recent_Ubuntu.id
   instance_type               = "t2.micro"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
@@ -189,7 +214,7 @@ resource "aws_instance" "Ansible_Node_03" {
 
 /* VM Create TEST VM
 resource "aws_instance" "public_vm_01" {
-  ami           = data.aws_ami.recent_amazon_linux.id
+  ami           = data.aws_ami.recent_Ubuntu.id
   instance_type = var.instnace_type
   subnet_id     = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
@@ -211,7 +236,7 @@ resource "aws_instance" "public_vm_01" {
 }
 
 resource "aws_instance" "public_vm_02" {
-  ami           = data.aws_ami.recent_amazon_linux.id
+  ami           = data.aws_ami.recent_Ubuntu.id
   instance_type = var.instnace_type
   subnet_id     = data.terraform_remote_state.network.outputs.vpc02_public_subnet_01_id
   associate_public_ip_address = true
