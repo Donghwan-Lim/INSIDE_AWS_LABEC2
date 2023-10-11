@@ -198,7 +198,7 @@ resource "aws_instance" "Ansible_Node_03" {
   key_name               = "INSIDE_EC2_KEYPAIR"
   vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
 
-*/
+
   root_block_device {
     delete_on_termination = true
     encrypted             = false
@@ -210,7 +210,7 @@ resource "aws_instance" "Ansible_Node_03" {
     Name     = "Ansible_Node_03"
     resource = "aws_ec2_instance"
   })))
-}
+}*/
 
 /* VM Create TEST VM
 resource "aws_instance" "public_vm_01" {
