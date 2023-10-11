@@ -1,5 +1,9 @@
-output "ami-id" {
+output "recent-al2020-ami-id" {
   value = data.aws_ami.recent_amazon_linux.id
+}
+
+output "recent-ubuntu2204-ami-id" {
+  value = data.aws_ami.recent_Ubuntu.id
 }
 
 /* VM Create Test VM
