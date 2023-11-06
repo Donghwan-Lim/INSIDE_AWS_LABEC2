@@ -148,11 +148,11 @@ resource "aws_instance" "Ansible_Server" {
 resource "aws_instance" "Ansible_Node_01" {
   ami                         = data.aws_ami.recent_Ubuntu.id
   instance_type               = "t2.micro"
-  subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
+  subnet_id                   = data.terraform_remote_state.network.outputs.vpc02_private_subnet_01_id
   associate_public_ip_address = false
 
   key_name               = "INSIDE_EC2_KEYPAIR"
-  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
+  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc2-private-vm-sg-id}"]
 
   root_block_device {
     delete_on_termination = true
@@ -212,10 +212,10 @@ resource "aws_instance" "Ansible_Node_03" {
   })))
 }*/
 
-/* VM Create TEST VM
-resource "aws_instance" "public_vm_01" {
-  ami           = data.aws_ami.recent_Ubuntu.id
-  instance_type = var.instnace_type
+# VM Create TEST VM
+resource "aws_instance" "TerraformEnterprise" {
+  ami           = data.aws_ami.recent_amazon_linux.id
+  instance_type = "t3.medium"
   subnet_id     = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
 
@@ -230,11 +230,11 @@ resource "aws_instance" "public_vm_01" {
   }
 
   tags = (merge(local.common-tags, tomap({
-    Name     = "public_vm_01_vpc1"
+    Name     = "Terraform_Enterprise"
     resource = "aws_ec2_instance"
   })))
 }
-
+/*
 resource "aws_instance" "public_vm_02" {
   ami           = data.aws_ami.recent_Ubuntu.id
   instance_type = var.instnace_type
