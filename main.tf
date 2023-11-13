@@ -212,7 +212,8 @@ resource "aws_instance" "Ansible_Node_03" {
   })))
 }*/
 
-# VM Create TEST VM
+# VM Create Terraform Enter Prise VM
+/*
 resource "aws_instance" "TerraformEnterprise" {
   ami           = data.aws_ami.recent_amazon_linux.id
   instance_type = "t3.medium"
@@ -234,6 +235,8 @@ resource "aws_instance" "TerraformEnterprise" {
     resource = "aws_ec2_instance"
   })))
 }
+*/
+
 /*
 resource "aws_instance" "public_vm_02" {
   ami           = data.aws_ami.recent_Ubuntu.id
