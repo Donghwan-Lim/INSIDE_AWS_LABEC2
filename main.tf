@@ -24,7 +24,7 @@ locals {
   common-tags = {
     author      = "DonghwanLim"
     system      = "LAB"
-    Environment = "INSIDE__AWS_NETWORK"
+    Environment = "INSIDE__AWS_NETWORKS"
   }
 }
 
