@@ -123,6 +123,29 @@ data "aws_ami" "recent_Ubuntu" {
   }
 }
 
+resource "aws_instance" "Terraform_Enterprise_Donghwan" {
+  ami                         = data.aws_ami.recent_amazon_linux.id
+  instance_type               = "m5.large"
+  subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
+  associate_public_ip_address = true
+
+  key_name               = "INSIDE_EC2_KEYPAIR"
+  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
+
+  root_block_device {
+    delete_on_termination = true
+    encrypted             = false
+    volume_type           = "gp3"
+    volume_size           = 100
+  }
+
+  tags = (merge(local.common-tags, tomap({
+    Name     = "Ansible_Server"
+    resource = "aws_ec2_instance"
+  })))
+}
+
+/*
 resource "aws_instance" "Ansible_Server" {
   ami                         = data.aws_ami.recent_Ubuntu.id
   instance_type               = "t2.micro"
