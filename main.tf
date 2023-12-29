@@ -140,7 +140,7 @@ resource "aws_instance" "Terraform_Enterprise_Donghwan" {
   }
 
   tags = (merge(local.common-tags, tomap({
-    Name     = "Ansible_Server"
+    Name     = "Terraform_Enterprise_Donghwan"
     resource = "aws_ec2_instance"
   })))
 }
