@@ -130,7 +130,7 @@ resource "aws_instance" "Terraform_Enterprise_Donghwan" {
   associate_public_ip_address = true
 
   key_name               = "INSIDE_EC2_KEYPAIR"
-  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}"]
+  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}","${data.terraform_remote_state.security.outputs.vpc1_terraform_sg-id}"]
 
   root_block_device {
     delete_on_termination = true
