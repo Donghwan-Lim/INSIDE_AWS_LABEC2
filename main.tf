@@ -158,7 +158,7 @@ resource "aws_route53_record" "Terraform_Enterprise_Record" {
   name    = "terraform"
   type    = "A"
   ttl     = 300
-  records = [aws_eip.Terraform_Tenterprise_EIP.address]
+  records = [aws_eip.Terraform_Tenterprise_EIP.public_ip]
 }
 
 //Terraform Enterprise LB & Target Group
