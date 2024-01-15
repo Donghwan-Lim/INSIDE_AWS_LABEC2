@@ -153,7 +153,7 @@ resource "aws_eip" "Terraform_Tenterprise_EIP" {
 }
 
 //Route53 Records Deploy
-resource "aws_route53_record" "" {
+resource "aws_route53_record" "Terraform_Enterprise_Record" {
   zone_id = "Z05152881DEVAJ0LCCX8I"
   name    = "terraform"
   type    = "A"
