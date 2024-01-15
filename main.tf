@@ -123,6 +123,8 @@ data "aws_ami" "recent_Ubuntu" {
   }
 }
 
+// Terraform Enterprise FDO Migration Test
+// Terraform Enterprise EC2
 resource "aws_instance" "Terraform_Enterprise_Donghwan" {
   ami                         = data.aws_ami.recent_amazon_linux.id
   instance_type               = "m5.large"
@@ -144,6 +146,24 @@ resource "aws_instance" "Terraform_Enterprise_Donghwan" {
     resource = "aws_ec2_instance"
   })))
 }
+// EIP For Terraform Enterprise
+resource "aws_eip" "Terraform_Tenterprise_EIP" {
+  domain = "vpc"
+  instance = aws_instance.Terraform_Enterprise_Donghwan.id
+}
+
+//Route53 Records Deploy
+resource "aws_route53_record" "" {
+  zone_id = "Z05152881DEVAJ0LCCX8I"
+  name    = "terraform"
+  type    = "A"
+  ttl     = 300
+  records = [aws_eip.Terraform_Tenterprise_EIP.address]
+}
+
+//Terraform Enterprise LB & Target Group
+
+
 
 /*
 resource "aws_instance" "Ansible_Server" {
