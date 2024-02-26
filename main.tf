@@ -126,13 +126,15 @@ data "aws_ami" "recent_Ubuntu" {
 // Terraform Enterprise FDO Migration Test
 // Terraform Enterprise EC2
 resource "aws_instance" "Terraform_Enterprise_Donghwan" {
-  ami                         = data.aws_ami.recent_amazon_linux.id
+  #data.aws_ami 형식으로 작성할 경우, 시간이 지나 최신 OS ami가 발표되면 Instance가 삭제되었다가 다시 만들어지는 일이 발생(AMI 교체작업 때문에)
+  #ami                         = data.aws_ami.recent_amazon_linux.id
+  ami                         = "ami-097bf0ec147165215"
   instance_type               = "m5.large"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
 
   key_name               = "INSIDE_EC2_KEYPAIR"
-  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}","${data.terraform_remote_state.security.outputs.vpc1_terraform_sg-id}"]
+  vpc_security_group_ids = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}", "${data.terraform_remote_state.security.outputs.vpc1_terraform_sg-id}"]
 
   root_block_device {
     delete_on_termination = true
@@ -148,7 +150,7 @@ resource "aws_instance" "Terraform_Enterprise_Donghwan" {
 }
 // EIP For Terraform Enterprise
 resource "aws_eip" "Terraform_Tenterprise_EIP" {
-  domain = "vpc"
+  domain   = "vpc"
   instance = aws_instance.Terraform_Enterprise_Donghwan.id
 }
 
@@ -166,8 +168,8 @@ resource "aws_lb" "Terraform_Enterprise_ALB" {
   name               = "terraform-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}","${data.terraform_remote_state.security.outputs.vpc1_terraform_sg-id}"]
-  subnets            = [data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id,data.terraform_remote_state.network.outputs.vpc01_public_subnet_02_id]
+  security_groups    = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}", "${data.terraform_remote_state.security.outputs.vpc1_terraform_sg-id}"]
+  subnets            = [data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id, data.terraform_remote_state.network.outputs.vpc01_public_subnet_02_id]
 
   enable_deletion_protection = true
 
@@ -227,8 +229,8 @@ resource "aws_lb_listener" "Terraform_Enterprise_LB_Listener_HTTP" {
   load_balancer_arn = aws_lb.Terraform_Enterprise_ALB.arn
   port              = "80"
   protocol          = "HTTP"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:ap-northeast-2:421448405988:certificate/2ce7de67-a559-49df-9afb-38e4278ad645"
+  #ssl_policy        = "ELBSecurityPolicy-2016-08"
+  #certificate_arn   = "arn:aws:acm:ap-northeast-2:421448405988:certificate/2ce7de67-a559-49df-9afb-38e4278ad645"
 
   default_action {
     type             = "forward"
