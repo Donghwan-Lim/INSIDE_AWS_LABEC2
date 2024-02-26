@@ -163,7 +163,7 @@ resource "aws_route53_record" "Terraform_Enterprise_Record" {
 
 //Terraform Enterprise LB & Target Group
 resource "aws_lb" "Terraform_Enterprise_ALB" {
-  name               = "Terraform_Enterprise_ALB"
+  name               = "terraform-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}","${data.terraform_remote_state.security.outputs.vpc1_terraform_sg-id}"]
@@ -185,7 +185,7 @@ resource "aws_lb" "Terraform_Enterprise_ALB" {
 }
 
 resource "aws_lb_target_group" "Terraform_Enterprise_TargetGroup_HTTP" {
-  name     = "Terraform_Enterprise_TargetGroup_HTTP"
+  name     = "terraform-targetgroup-http"
   port     = 80
   protocol = "HTTP"
   vpc_id   = data.terraform_remote_state.network.outputs.vpc01_id
@@ -198,7 +198,7 @@ resource "aws_lb_target_group_attachment" "Terraform_Enterprise_TargetGroup_HTTP
 }
 
 resource "aws_lb_target_group" "Terraform_Enterprise_TargetGroup_HTTPS" {
-  name     = "Terraform_Enterprise_TargetGroup_HTTPS"
+  name     = "terraform-targetgroup-https"
   port     = 443
   protocol = "HTTPS"
   vpc_id   = data.terraform_remote_state.network.outputs.vpc01_id
