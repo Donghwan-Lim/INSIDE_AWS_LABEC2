@@ -159,8 +159,15 @@ resource "aws_route53_record" "Terraform_Enterprise_Record" {
   zone_id = "Z05152881DEVAJ0LCCX8I"
   name    = "terraform"
   type    = "A"
-  ttl     = 300
-  records = [aws_eip.Terraform_Tenterprise_EIP.public_ip]
+  #ttl     = 300
+  #records = [aws_eip.Terraform_Tenterprise_EIP.public_ip]
+  
+  alias {
+    name                   = aws_lb.Terraform_Enterprise_ALB.dns_name
+    zone_id                = aws_lb.Terraform_Enterprise_ALB.zone_id
+    evaluate_target_health = true
+  }
+
 }
 
 //Terraform Enterprise LB & Target Group
