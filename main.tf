@@ -129,7 +129,7 @@ resource "aws_instance" "Terraform_Enterprise_Donghwan" {
   #data.aws_ami 형식으로 작성할 경우, 시간이 지나 최신 OS ami가 발표되면 Instance가 삭제되었다가 다시 만들어지는 일이 발생(AMI 교체작업 때문에)
   #ami                         = data.aws_ami.recent_amazon_linux.id
   ami                         = "ami-097bf0ec147165215"
-  instance_type               = "m5.large"
+  instance_type               = "t3.medium"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
 
