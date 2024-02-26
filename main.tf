@@ -162,7 +162,79 @@ resource "aws_route53_record" "Terraform_Enterprise_Record" {
 }
 
 //Terraform Enterprise LB & Target Group
+resource "aws_lb" "Terraform_Enterprise_ALB" {
+  name               = "Terraform_Enterprise_ALB"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = ["${data.terraform_remote_state.security.outputs.vpc1-public-vm-sg-id}","${data.terraform_remote_state.security.outputs.vpc1_terraform_sg-id}"]
+  subnets            = [data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id,data.terraform_remote_state.network.outputs.vpc01_public_subnet_02_id]
 
+  enable_deletion_protection = true
+
+  /*
+  access_logs {
+    bucket  = aws_s3_bucket.lb_logs.id
+    prefix  = "test-lb"
+    enabled = true
+  }*/
+
+  tags = (merge(local.common-tags, tomap({
+    Name     = "Terraform_Enterprise_Donghwan_ALB"
+    resource = "aws_application_loadbalancer"
+  })))
+}
+
+resource "aws_lb_target_group" "Terraform_Enterprise_TargetGroup_HTTP" {
+  name     = "Terraform_Enterprise_TargetGroup_HTTP"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = data.terraform_remote_state.network.outputs.vpc01_id
+}
+
+resource "aws_lb_target_group_attachment" "Terraform_Enterprise_TargetGroup_HTTP_Attach" {
+  target_group_arn = aws_lb_target_group.Terraform_Enterprise_TargetGroup_HTTP.arn
+  target_id        = aws_instance.Terraform_Enterprise_Donghwan.id
+  port             = 80
+}
+
+resource "aws_lb_target_group" "Terraform_Enterprise_TargetGroup_HTTPS" {
+  name     = "Terraform_Enterprise_TargetGroup_HTTPS"
+  port     = 443
+  protocol = "HTTPS"
+  vpc_id   = data.terraform_remote_state.network.outputs.vpc01_id
+}
+
+resource "aws_lb_target_group_attachment" "Terraform_Enterprise_TargetGroup_HTTPS_Attach" {
+  target_group_arn = aws_lb_target_group.Terraform_Enterprise_TargetGroup_HTTPS.arn
+  target_id        = aws_instance.Terraform_Enterprise_Donghwan.id
+  port             = 443
+}
+
+resource "aws_lb_listener" "Terraform_Enterprise_LB_Listener_HTTPS" {
+  load_balancer_arn = aws_lb.Terraform_Enterprise_ALB.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "arn:aws:acm:ap-northeast-2:421448405988:certificate/2ce7de67-a559-49df-9afb-38e4278ad645"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.Terraform_Enterprise_TargetGroup_HTTPS.arn
+  }
+}
+
+resource "aws_lb_listener" "Terraform_Enterprise_LB_Listener_HTTP" {
+  load_balancer_arn = aws_lb.Terraform_Enterprise_ALB.arn
+  port              = "80"
+  protocol          = "HTTP"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "arn:aws:acm:ap-northeast-2:421448405988:certificate/2ce7de67-a559-49df-9afb-38e4278ad645"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.Terraform_Enterprise_TargetGroup_HTTP.arn
+  }
+}
 
 
 /*
