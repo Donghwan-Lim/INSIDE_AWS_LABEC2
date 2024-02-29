@@ -32,7 +32,7 @@ locals {
 data "terraform_remote_state" "network" {
   backend = "remote"
   config = {
-    organization = "Insideinfo"
+    organization = "INSIDE_CS_PART2"
     workspaces = {
       name = "INSIDE_AWS_LABNET"
     }
@@ -42,7 +42,7 @@ data "terraform_remote_state" "network" {
 data "terraform_remote_state" "security" {
   backend = "remote"
   config = {
-    organization = "Insideinfo"
+    organization = "INSIDE_CS_PART2"
     workspaces = {
       name = "INSIDE_AWS_LABSGs"
     }
@@ -128,7 +128,7 @@ data "aws_ami" "recent_Ubuntu" {
 resource "aws_instance" "Terraform_Enterprise_Donghwan" {
   #data.aws_ami 형식으로 작성할 경우, 시간이 지나 최신 OS ami가 발표되면 Instance가 삭제되었다가 다시 만들어지는 일이 발생(AMI 교체작업 때문에)
   #ami                         = data.aws_ami.recent_amazon_linux.id
-  ami                         = "ami-097bf0ec147165215"
+  ami                         = "ami-0e36ebfb99dd8f8a4" # 20240226 ami backup image
   instance_type               = "t3.medium"
   subnet_id                   = data.terraform_remote_state.network.outputs.vpc01_public_subnet_01_id
   associate_public_ip_address = true
@@ -149,10 +149,12 @@ resource "aws_instance" "Terraform_Enterprise_Donghwan" {
   })))
 }
 // EIP For Terraform Enterprise
+/* ALB 사용으로 EIP 불필요
 resource "aws_eip" "Terraform_Tenterprise_EIP" {
   domain   = "vpc"
   instance = aws_instance.Terraform_Enterprise_Donghwan.id
 }
+*/
 
 //Route53 Records Deploy
 resource "aws_route53_record" "Terraform_Enterprise_Record" {
@@ -162,6 +164,7 @@ resource "aws_route53_record" "Terraform_Enterprise_Record" {
   #ttl     = 300
   #records = [aws_eip.Terraform_Tenterprise_EIP.public_ip]
   
+  # 별칭으로 변경, 레코드 목적지를 IP -> ALB Instance로
   alias {
     name                   = aws_lb.Terraform_Enterprise_ALB.dns_name
     zone_id                = aws_lb.Terraform_Enterprise_ALB.zone_id
