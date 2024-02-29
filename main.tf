@@ -164,7 +164,7 @@ resource "aws_route53_record" "Terraform_Enterprise_Record" {
   #ttl     = 300
   #records = [aws_eip.Terraform_Tenterprise_EIP.public_ip]
   
-  # 별칭으로 변경, 레코드 목적지를 IP -> ALB Instance로
+  # 별칭으로 변경, 레코드 목적지를 IP -> ALB Instance로!
   alias {
     name                   = aws_lb.Terraform_Enterprise_ALB.dns_name
     zone_id                = aws_lb.Terraform_Enterprise_ALB.zone_id
